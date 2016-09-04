@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html><head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta charset="utf-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<link rel="stylesheet" href="leaflet.css">
+  </head>
+  <body style="">
+	<div class=" leaflet-container leaflet-fade-anim" id="map" style="width: 1200px; height: 800px; position: relative;">
+	</div>
+	
+	<script src="leaflet.js"></script>
+	<script src="sprintf-0.7-beta1.js"></script>
+	<script src="decimaltodm.js"></script>
+
+
+	<script>
+	    var map = new L.Map('map');
+
+//		var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png';
+		var cloudmadeUrl = 'http://mt0.google.com/vt/lyrs=s@110&hl=en&x={x}&y={y}&z={z}';
+//		var cloudmadeUrl = 'http://mt0.google.com/vt/v=w2p.110&hl=en&x={x}&y={y}&z={z}';
+
+
+		var cloudmade = new L.TileLayer(cloudmadeUrl, {maxZoom: 18});
+
+		map.setView(new L.LatLng(37.990, -84.547), 13).addLayer(cloudmade);
+
+		map.on('click', onMapClick);
+
+		var popup = new L.Popup();
+
+        function onMapClick(e) {
+			var newlatlngStr = LocationFormatter.decimalLatToDM(e.latlng.lat) + LocationFormatter.decimalLongToDM(e.latlng.lng);
+			popup.setLatLng(e.latlng);
+		    popup.setContent(newlatlngStr);
+		    map.openPopup(popup);
+		}
+	</script>
+
+
+</body></html>
